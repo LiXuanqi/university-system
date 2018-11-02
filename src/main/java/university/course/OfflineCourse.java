@@ -1,3 +1,5 @@
+package university.course;
+
 public class OfflineCourse extends Course {
 
     private String location;

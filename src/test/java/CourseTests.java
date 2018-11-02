@@ -1,4 +1,6 @@
 import org.junit.jupiter.api.Test;
+import university.course.OfflineCourse;
+import university.course.OnlineCourse;
 
 public class CourseTests {
     @Test

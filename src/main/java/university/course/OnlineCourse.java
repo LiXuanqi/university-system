@@ -1,3 +1,5 @@
+package university.course;
+
 public class OnlineCourse extends Course {
     private String url;
 

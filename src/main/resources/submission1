@@ -1,0 +1,4 @@
+TYPE:ESSAY CONTENT:Imagine you are a engineer in University of California Information Systems team, and you are tasked to develop a register system to manage students’ course registration, transfer, etc.
+TYPE:ESSAY CONTENT:A Course will have fixed capacity when the signup count of Student reached capacity, student can no longer sign up to that Course.
+TYPE:CHOICE CONTENT:A B
+TYPE:CHOICE CONTENT:A C D

@@ -1,14 +1,15 @@
+package university.people;
+
+import university.Database;
+import university.course.Course;
+import university.course.OfflineCourse;
+import university.course.OnlineCourse;
+
 public class CourseManager {
 
     private Database db = Database.getInstance();
 
-    private Course createOnlineCourse(String name, int capacity, int credit, String time, String url) {
-        return new OnlineCourse(name, capacity, credit, time, url);
-    }
-
-    private Course createOfflineCourse(String name, int capacity, int credit, String time, String location) {
-        return new OfflineCourse(name, capacity, credit, time, location);
-    }
+    // PUBLIC METHODS
 
     public void addCourse(String name, int capacity, int credit, String time, String type, String source) {
         Course course = null;
@@ -24,14 +25,25 @@ public class CourseManager {
         db.deleteCourse(name);
     }
 
-    public void updateCourse() {
-
+    public void updateCourseName(String courseName, String newName) {
+        Course course = db.findCourseByName(courseName);
+        course.setName(newName);
     }
 
     public void browseCourse(String name) {
         Course course = db.findCourseByName(name);
         System.out.println(course);
+
     }
 
+    // PRIVATE METHODS
+
+    private Course createOnlineCourse(String name, int capacity, int credit, String time, String url) {
+        return new OnlineCourse(name, capacity, credit, time, url);
+    }
+
+    private Course createOfflineCourse(String name, int capacity, int credit, String time, String location) {
+        return new OfflineCourse(name, capacity, credit, time, location);
+    }
 
 }

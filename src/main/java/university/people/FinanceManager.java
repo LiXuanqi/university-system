@@ -1,3 +1,7 @@
+package university.people;
+
+import university.course.Course;
+
 public class FinanceManager {
 
     public void setRate(int rate) {

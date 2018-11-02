@@ -1,3 +1,8 @@
+package university;
+
+import university.course.Course;
+import university.people.Student;
+
 import java.util.HashMap;
 import java.util.Map;
 

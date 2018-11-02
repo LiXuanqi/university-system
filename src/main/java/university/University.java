@@ -1,4 +1,4 @@
-import java.util.List;
+package university;
 
 public class University {
     private Database db = Database.getInstance();
