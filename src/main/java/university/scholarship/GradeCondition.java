@@ -25,4 +25,27 @@ public class GradeCondition implements RewardCondition {
     public boolean isMatched(Student student) {
         return targetGrades.contains(student.getGpa());
     }
+
+    @Override
+    public void addTarget(String target) {
+        if (target.length() != 1) {
+            return;
+        }
+        addTargetGrade(target.charAt(0));
+    }
+
+    @Override
+    public void deleteTarget(String target) {
+        if (target.length() != 1) {
+            return;
+        }
+        deleteTargetGrade(target.charAt(0));
+    }
+
+    @Override
+    public String toString() {
+        return "GradeCondition{" +
+                "targetGrades=" + targetGrades +
+                '}';
+    }
 }

@@ -1,15 +1,10 @@
 package people;
 
 import org.junit.jupiter.api.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import university.Database;
 import university.people.CourseManager;
-
-import javax.xml.crypto.Data;
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
 
 //@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class CourseManagerTests {
@@ -28,7 +23,7 @@ public class CourseManagerTests {
 
     @Test
     void addCourseTest() {
-        CourseManager manager = new CourseManager();
+        CourseManager manager = new CourseManager("Annie");
         manager.addCourse("CourseName1", 10, 4, "10:00 - 12:00", "ONLINE", "http://www.course.com");
         manager.addCourse("CourseName2", 15, 8, "1:00 - 3:00", "OFFLINE", "IoT Room");
 
@@ -39,7 +34,7 @@ public class CourseManagerTests {
 
     @Test
     void deleteCourseTest() {
-        CourseManager manager = new CourseManager();
+        CourseManager manager = new CourseManager("Annie");
 
         assertTrue(!hasCourse("CourseName1"));
 
@@ -57,7 +52,7 @@ public class CourseManagerTests {
 
     @Test
     void updateCourseTest() {
-        CourseManager manager = new CourseManager();
+        CourseManager manager = new CourseManager("Annie");
         manager.addCourse("CourseName1", 10, 4, "10:00 - 12:00", "ONLINE", "http://www.course.com");
         assertTrue(hasCourse("CourseName1"));
         manager.updateCourseName("CourseName1", "NewCourse");
@@ -68,7 +63,7 @@ public class CourseManagerTests {
 
     @Test
     void browserCourseTest() {
-        CourseManager manager = new CourseManager();
+        CourseManager manager = new CourseManager("Annie");
         manager.addCourse("CourseName1", 10, 4, "10:00 - 12:00", "ONLINE", "http://www.course.com");
         manager.addCourse("CourseName2", 15, 8, "1:00 - 3:00", "OFFLINE", "IoT Room");
         manager.browseCourse("CourseName1");

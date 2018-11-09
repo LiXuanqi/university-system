@@ -32,17 +32,31 @@ public abstract class Course {
 
     private List<Assignment> assignments;
 
+    public static int getCreditRate() {
+        return creditRate;
+    }
+
+    public String getGradeByStudentName(String studentName) {
+        Student student = db.findStudentByName(studentName);;
+
+        return studentToGrade.get(student).toString();
+    }
+
     public void setName(String name) {
         db.deleteCourse(this.name);
         this.name = name;
         db.addCourse(this);
     }
 
+    public Evaluable getEvaluationRule() {
+        return evaluationRule;
+    }
+
     public void setEvaluationRule(String evaluationType) {
         Evaluable evaluationRule = null;
-        if (evaluationType.equalsIgnoreCase("RankBased")) {
+        if (evaluationType.equalsIgnoreCase("RANK")) {
             evaluationRule = new RankBasedEvaluation();
-        } else {
+        } else if (evaluationType.equalsIgnoreCase("POINT")) {
             evaluationRule = new PointsBasedEvaLuation();
         }
         this.evaluationRule = evaluationRule;
@@ -85,6 +99,7 @@ public abstract class Course {
         students = new HashSet<>();
         assignmentGrades = new HashMap<>();
         assignments = new ArrayList<>();
+        studentToGrade = new HashMap<>();
     }
 
     public Set<Student> getStudents() {
@@ -106,10 +121,14 @@ public abstract class Course {
         return students.size() >= CAPACITY;
     }
 
-    public void addStudent(String studentName) {
+    public boolean addStudent(String studentName) {
         if (!isFull()) {
             Student student = db.findStudentByName(studentName);
             students.add(student);
+            return true;
+        } else {
+            System.out.println("Course: " + this.name + " is Full.");
+            return false;
         }
     }
 

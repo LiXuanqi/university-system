@@ -5,9 +5,13 @@ import university.course.Course;
 import university.course.OfflineCourse;
 import university.course.OnlineCourse;
 
-public class CourseManager {
+public class CourseManager extends User {
 
     private Database db = Database.getInstance();
+
+    public CourseManager(String name) {
+        super(name);
+    }
 
     // PUBLIC METHODS
 

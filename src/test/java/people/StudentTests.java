@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import university.Database;
 import university.course.Course;
+import university.course.Evaluable;
 import university.people.CourseManager;
 import university.people.Student;
 import university.people.Teacher;
@@ -23,7 +24,7 @@ public class StudentTests {
 
     @BeforeAll
     void setUp() {
-        CourseManager manager = new CourseManager();
+        CourseManager manager = new CourseManager("Annie");
         manager.addCourse("CourseName1", 10, 4, "10:00 - 12:00", "ONLINE", "http://www.course.com");
         manager.addCourse("CourseName2", 15, 8, "1:00 - 3:00", "OFFLINE", "IoT Room");
         Teacher teacher = new Teacher("Nancy");
@@ -75,7 +76,20 @@ public class StudentTests {
 
     @Test
     void viewTranscriptTest() {
+        student.signupCourse("CourseName1");
 
+        Teacher teacher = new Teacher("Lily");
+        teacher.addTeachedCourse("CourseName1");
+
+        teacher.createAssignment("CourseName1", "/Users/lixuanqi/Github/university-system/src/main/resources/assignment1");
+
+        student.addSubmissionToCourse("CourseName1", 0, "/Users/lixuanqi/Github/university-system/src/main/resources/submission1");
+        teacher.gradeSubmission("CourseName1", 0, "Jack", 70);
+
+        teacher.setCourseEvaluationRule("CourseName1", "POINT");
+
+        db.findCourseByName("CourseName1").grade();
+        student.viewTranscript();
     }
 
     @Test
@@ -93,12 +107,18 @@ public class StudentTests {
 
     @Test
     void deleteSubmissionTest() {
-
+        student.addSubmissionToCourse("CourseName1", 0, "/Users/lixuanqi/Github/university-system/src/main/resources/submission1");
+        student.browseSubmission("CourseName1", 0);
+        student.deleteSubmission("CourseName1", 0);
+        student.browseSubmission("CourseName1", 0);
     }
 
     @Test
     void updateSubmissionTest() {
-
+        student.addSubmissionToCourse("CourseName1", 0, "/Users/lixuanqi/Github/university-system/src/main/resources/submission1");
+        student.browseSubmission("CourseName1", 0);
+        student.updateSubmission("CourseName1", 0, "/Users/lixuanqi/Github/university-system/src/main/resources/submission2");
+        student.browseSubmission("CourseName1", 0);
     }
 
     private boolean isStudentInCourseList(String courseName, String studentName) {

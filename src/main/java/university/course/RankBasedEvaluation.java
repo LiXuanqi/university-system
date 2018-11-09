@@ -39,7 +39,7 @@ public class RankBasedEvaluation implements Evaluable {
             Student student = studentGrade.student;
             if (i <= numA) {
                 studentToGrade.put(student, Course.Grade.A);
-            } else if (i <= B) {
+            } else if (i <= numB) {
                 studentToGrade.put(student, Course.Grade.B);
             } else {
                 studentToGrade.put(student, Course.Grade.C);

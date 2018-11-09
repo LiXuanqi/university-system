@@ -26,4 +26,21 @@ public class CountryCondition implements RewardCondition {
         String country = student.getCountry();
         return targetCountries.contains(country);
     }
+
+    @Override
+    public void addTarget(String target) {
+        addTargetCountry(target);
+    }
+
+    @Override
+    public void deleteTarget(String target) {
+        deleteTargetCountry(target);
+    }
+
+    @Override
+    public String toString() {
+        return "CountryCondition{" +
+                "targetCountries=" + targetCountries +
+                '}';
+    }
 }

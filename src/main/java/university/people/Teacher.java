@@ -44,6 +44,9 @@ public class Teacher extends User {
 
     public void createAssignment(String courseName, String filepath) {
         Course course = db.findCourseByName(courseName);
+        if (!isTeach(course)) {
+            return;
+        }
         List<Question> questions = FileUtil.readQuestionsFromFile(filepath);
         Assignment assignment = new Assignment();
         for (Question question : questions) {
@@ -69,6 +72,7 @@ public class Teacher extends User {
         Course course = db.findCourseByName(courseName);
         course.gradeSubmission(assignmentId, studentName, mark);
     }
+
     public void setCourseEvaluationRule(String courseName, String evaluationType) {
         Course course = db.findCourseByName(courseName);
         course.setEvaluationRule(evaluationType);
