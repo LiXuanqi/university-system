@@ -53,6 +53,7 @@ public class Teacher extends User {
             assignment.addQuestion(question);
         }
         course.addAssignment(assignment);
+        System.out.println("Add assignment: " + assignment.getId() + " to " + courseName);
     }
 
     public void deleteAssignment(String courseName, int id) {
@@ -60,7 +61,10 @@ public class Teacher extends User {
         if (!isTeach(course)) {
             return;
         }
-        course.deleteAssignment(id);
+        if (course.deleteAssignment(id)) {
+            System.out.println("Assignment: " + id + " is deleted.");
+        }
+
     }
 
     public void gradeCourse(String courseName) {
@@ -70,12 +74,16 @@ public class Teacher extends User {
 
     public void gradeSubmission(String courseName, int assignmentId, String studentName, int mark) {
         Course course = db.findCourseByName(courseName);
-        course.gradeSubmission(assignmentId, studentName, mark);
+        if (course.gradeSubmission(assignmentId, studentName, mark)) {
+            System.out.println(studentName + " in class: " + courseName + "'s assignment: " + assignmentId + " get " + mark);
+        }
     }
 
     public void setCourseEvaluationRule(String courseName, String evaluationType) {
         Course course = db.findCourseByName(courseName);
-        course.setEvaluationRule(evaluationType);
+        if (course.setEvaluationRule(evaluationType)) {
+            System.out.println(courseName + "'s evaluation rule is set to " + evaluationType);
+        }
     }
 
     private boolean isTeach(Course course) {

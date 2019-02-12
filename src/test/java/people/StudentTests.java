@@ -28,7 +28,7 @@ public class StudentTests {
         manager.addCourse("CourseName1", 10, 4, "10:00 - 12:00", "ONLINE", "http://www.course.com");
         manager.addCourse("CourseName2", 15, 8, "1:00 - 3:00", "OFFLINE", "IoT Room");
         Teacher teacher = new Teacher("Nancy");
-        teacher.createAssignment("CourseName1", "/Users/lixuanqi/Github/university-system/src/main/resources/assignment1");
+        teacher.createAssignment("CourseName1", Database.ASSIGNMENTS_PATHS[0]);
 
     }
 
@@ -81,9 +81,9 @@ public class StudentTests {
         Teacher teacher = new Teacher("Lily");
         teacher.addTeachedCourse("CourseName1");
 
-        teacher.createAssignment("CourseName1", "/Users/lixuanqi/Github/university-system/src/main/resources/assignment1");
+        teacher.createAssignment("CourseName1", Database.ASSIGNMENTS_PATHS[0]);
 
-        student.addSubmissionToCourse("CourseName1", 0, "/Users/lixuanqi/Github/university-system/src/main/resources/submission1");
+        student.addSubmissionToCourse("CourseName1", 0, Database.SUBMISSION_PATHS[0]);
         teacher.gradeSubmission("CourseName1", 0, "Jack", 70);
 
         teacher.setCourseEvaluationRule("CourseName1", "POINT");
@@ -94,20 +94,20 @@ public class StudentTests {
 
     @Test
     void browseSubmissionTest() {
-        student.addSubmissionToCourse("CourseName1", 0, "/Users/lixuanqi/Github/university-system/src/main/resources/submission1");
+        student.addSubmissionToCourse("CourseName1", 0, Database.SUBMISSION_PATHS[0]);
         student.browseSubmission("CourseName1", 0);
     }
 
     @Test
     void createSubmissionTest() {
-        student.addSubmissionToCourse("CourseName1", 0, "/Users/lixuanqi/Github/university-system/src/main/resources/submission1");
+        student.addSubmissionToCourse("CourseName1", 0, Database.SUBMISSION_PATHS[0]);
         student.browseSubmission("CourseName1", 0);
 
     }
 
     @Test
     void deleteSubmissionTest() {
-        student.addSubmissionToCourse("CourseName1", 0, "/Users/lixuanqi/Github/university-system/src/main/resources/submission1");
+        student.addSubmissionToCourse("CourseName1", 0, Database.SUBMISSION_PATHS[0]);
         student.browseSubmission("CourseName1", 0);
         student.deleteSubmission("CourseName1", 0);
         student.browseSubmission("CourseName1", 0);
@@ -115,9 +115,9 @@ public class StudentTests {
 
     @Test
     void updateSubmissionTest() {
-        student.addSubmissionToCourse("CourseName1", 0, "/Users/lixuanqi/Github/university-system/src/main/resources/submission1");
+        student.addSubmissionToCourse("CourseName1", 0, Database.SUBMISSION_PATHS[0]);
         student.browseSubmission("CourseName1", 0);
-        student.updateSubmission("CourseName1", 0, "/Users/lixuanqi/Github/university-system/src/main/resources/submission2");
+        student.updateSubmission("CourseName1", 0, Database.SUBMISSION_PATHS[1]);
         student.browseSubmission("CourseName1", 0);
     }
 

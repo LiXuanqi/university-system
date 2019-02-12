@@ -28,8 +28,8 @@ public class Assignment {
         submissions.add(submission);
     }
 
-    public void deleteSubmissionByStudentName(String studentName) {
-        submissions.remove(getSubmissionByStudentName(studentName));
+    public boolean deleteSubmissionByStudentName(String studentName) {
+         return submissions.remove(getSubmissionByStudentName(studentName));
     }
 
     public Submission getSubmissionByStudentName(String studentName) {

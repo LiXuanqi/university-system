@@ -23,21 +23,26 @@ public class CourseManager extends User {
             course = createOfflineCourse(name, capacity, credit, time, source);
         }
         db.addCourse(course);
+        System.out.println(name + " is added");
     }
 
     public void deleteCourse(String name) {
         db.deleteCourse(name);
+        System.out.println(name + " is deleted.");
     }
 
     public void updateCourseName(String courseName, String newName) {
         Course course = db.findCourseByName(courseName);
+        if (course == null) {
+            return;
+        }
         course.setName(newName);
+        System.out.println(courseName + " has been set to " + newName);
     }
 
     public void browseCourse(String name) {
         Course course = db.findCourseByName(name);
         System.out.println(course);
-
     }
 
     // PRIVATE METHODS

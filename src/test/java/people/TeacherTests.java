@@ -38,8 +38,8 @@ public class TeacherTests {
     @Test
     void createAssignment() {
 
-        teacher.createAssignment("CourseName1", "/Users/lixuanqi/Github/university-system/src/main/resources/assignment1");
-        teacher.createAssignment("CourseName1", "/Users/lixuanqi/Github/university-system/src/main/resources/assignment2");
+        teacher.createAssignment("CourseName1", Database.ASSIGNMENTS_PATHS[0]);
+        teacher.createAssignment("CourseName1", Database.ASSIGNMENTS_PATHS[1]);
 
         teacher.browseMyAllAssignments();
 
@@ -47,8 +47,8 @@ public class TeacherTests {
 
     @Test
     void deleteAssignment() {
-        teacher.createAssignment("CourseName1", "/Users/lixuanqi/Github/university-system/src/main/resources/assignment1");
-        teacher.createAssignment("CourseName1", "/Users/lixuanqi/Github/university-system/src/main/resources/assignment2");
+        teacher.createAssignment("CourseName1", Database.ASSIGNMENTS_PATHS[0]);
+        teacher.createAssignment("CourseName1", Database.ASSIGNMENTS_PATHS[1]);
 
         teacher.browseMyAllAssignments();
         
@@ -59,10 +59,10 @@ public class TeacherTests {
 
     @Test
     void gradeSubmission() {
-        teacher.createAssignment("CourseName1", "/Users/lixuanqi/Github/university-system/src/main/resources/assignment1");
+        teacher.createAssignment("CourseName1", Database.ASSIGNMENTS_PATHS[0]);
         Student student = new Student("Jack", "CHINA");
         db.addStudent(student);
-        student.addSubmissionToCourse("CourseName1", 0, "/Users/lixuanqi/Github/university-system/src/main/resources/submission1");
+        student.addSubmissionToCourse("CourseName1", 0, Database.SUBMISSION_PATHS[0]);
         teacher.gradeSubmission("CourseName1", 0, "Jack", 80);
         student.browseSubmission("CourseName1", 0);
     }

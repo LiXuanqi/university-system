@@ -21,7 +21,6 @@ public abstract class Course {
     private final int CREDIT;
 
     private static int creditRate;
-
     private String time; // course schedule.
 
     private Set<Student> students;
@@ -31,6 +30,18 @@ public abstract class Course {
     private Evaluable evaluationRule;
 
     private List<Assignment> assignments;
+
+
+    public Course(String name, int capacity, int credit, String time) {
+        this.name = name;
+        this.CAPACITY = capacity;
+        this.CREDIT = credit;
+        this.time = time;
+        students = new HashSet<>();
+        assignmentGrades = new HashMap<>();
+        assignments = new ArrayList<>();
+        studentToGrade = new HashMap<>();
+    }
 
     public static int getCreditRate() {
         return creditRate;
@@ -52,23 +63,30 @@ public abstract class Course {
         return evaluationRule;
     }
 
-    public void setEvaluationRule(String evaluationType) {
+    public boolean setEvaluationRule(String evaluationType) {
         Evaluable evaluationRule = null;
         if (evaluationType.equalsIgnoreCase("RANK")) {
             evaluationRule = new RankBasedEvaluation();
         } else if (evaluationType.equalsIgnoreCase("POINT")) {
-            evaluationRule = new PointsBasedEvaLuation();
+            evaluationRule = new PointsBasedEvaluation();
         }
         this.evaluationRule = evaluationRule;
+        return true;
     }
 
     public void grade() {
         evaluationRule.evaluate(assignmentGrades, studentToGrade);
     }
 
-    public void gradeSubmission(int assignmentId, String studentName, int mark) {
+    public boolean gradeSubmission(int assignmentId, String studentName, int mark) {
         Assignment assignment = getAssignmentById(assignmentId);
+        if (assignment == null) {
+            return false;
+        }
         Submission submission = assignment.getSubmissionByStudentName(studentName);
+        if (submission == null) {
+            return false;
+        }
         submission.setGrade(mark);
 
         Student student = db.findStudentByName(studentName);
@@ -76,6 +94,7 @@ public abstract class Course {
             assignmentGrades.put(student, new ArrayList<Integer>());
         }
         assignmentGrades.get(student).add(mark);
+        return true;
     }
 
     public Assignment getAssignmentById(int id) {
@@ -91,16 +110,6 @@ public abstract class Course {
         return assignments;
     }
 
-    public Course(String name, int capacity, int credit, String time) {
-        this.name = name;
-        this.CAPACITY = capacity;
-        this.CREDIT = credit;
-        this.time = time;
-        students = new HashSet<>();
-        assignmentGrades = new HashMap<>();
-        assignments = new ArrayList<>();
-        studentToGrade = new HashMap<>();
-    }
 
     public Set<Student> getStudents() {
         return students;
@@ -110,11 +119,12 @@ public abstract class Course {
         assignments.add(assignment);
     }
 
-    public void deleteAssignment(int id) {
+    public boolean deleteAssignment(int id) {
         Assignment assignment = getAssignmentById(id);
         if (assignment != null) {
-            assignments.remove(assignment);
+            return assignments.remove(assignment);
         }
+        return false;
     }
 
     public boolean isFull() {
@@ -132,9 +142,13 @@ public abstract class Course {
         }
     }
 
-    public void deleteStudent(String studentName) {
+    public boolean deleteStudent(String studentName) {
         Student student = db.findStudentByName(studentName);
-        students.remove(student);
+        if (students.contains(student)) {
+            students.remove(student);
+            return true;
+        }
+        return false;
     }
 
     public static void setCreditRate(int creditRate) {

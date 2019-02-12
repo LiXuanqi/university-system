@@ -10,7 +10,32 @@ import university.scholarship.Scholarship;
 import java.util.*;
 
 public class Database {
-    private static Database instance = new Database();
+
+    public static String[] ASSIGNMENTS_PATHS = {
+            "/Users/lixuanqi/Github/university-system/src/main/resources/assignment1",
+            "/Users/lixuanqi/Github/university-system/src/main/resources/assignment2"
+    };
+
+    public static String[] SUBMISSION_PATHS = {
+            "/Users/lixuanqi/Github/university-system/src/main/resources/submission1",
+            "/Users/lixuanqi/Github/university-system/src/main/resources/submission2"
+    };
+
+
+    private static volatile Database INSTANCE = null;
+
+    private Database() {};
+
+    public static Database getInstance() {
+        if (INSTANCE == null) {
+            synchronized (Database.class) {
+                if (INSTANCE == null) {
+                    INSTANCE = new Database();
+                }
+            }
+        }
+        return INSTANCE;
+    }
 
     private Map<String, Student> students = new HashMap<>();
     private Map<String, Course> courses = new HashMap<>();
@@ -112,9 +137,4 @@ public class Database {
         return courses;
     }
 
-    private Database() {};
-
-    public static Database getInstance() {
-        return instance;
-    }
 }

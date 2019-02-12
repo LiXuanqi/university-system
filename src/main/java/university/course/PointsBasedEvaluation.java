@@ -7,7 +7,7 @@ import university.people.Student;
 import java.util.List;
 import java.util.Map;
 
-public class PointsBasedEvaLuation implements Evaluable {
+public class PointsBasedEvaluation implements Evaluable {
     private static final int A = 80;
     private static final int B = 60;
 

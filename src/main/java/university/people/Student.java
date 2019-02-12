@@ -13,18 +13,15 @@ public class Student extends User {
 
     private Database db = Database.getInstance();
 
-
     private String country;
     private int creditSum; // should between 16 to 20 for each semester.
     private double tuition;
     private Set<Course> choosedCourses;
-//    private Map<Course, Transcript> courseToTranscript;
 
     public Student(String name, String country) {
         super(name);
         this.country = country;
         this.choosedCourses = new HashSet<>();
-//        this.courseToTranscript = new HashMap<>();
     }
 
     public void setTuition(double tuition) {
@@ -48,7 +45,19 @@ public class Student extends User {
     }
 
     public char getGpa() {
-        return 'A';
+        Random random = new Random();
+        int val = random.nextInt(100);
+        if (val >= 80) {
+            return 'A';
+        } else if (val >= 60) {
+            return 'B';
+        } else {
+            return 'C';
+        }
+    }
+
+    public void browseCourses() {
+        db.getCourses().values().stream().forEach(x -> browseCourse(x.getName()));
     }
 
     public void browseCourse(String name) {
@@ -71,6 +80,7 @@ public class Student extends User {
             choosedCourses.add(course);
             creditSum += course.getCREDIT();
             tuition += Course.getCreditRate() * course.getCREDIT();
+            System.out.println(this.getName() + " registered course - " + courseName);
         }
     }
 
@@ -80,10 +90,12 @@ public class Student extends User {
 
     public void dropCourse(String courseName) {
         Course course = db.findCourseByName(courseName);
-        choosedCourses.remove(course);
-        course.deleteStudent(this.getName());
-        creditSum -= course.getCREDIT();
-        tuition -= Course.getCreditRate() * course.getCREDIT();
+        if (choosedCourses.contains(course) && course.deleteStudent(this.getName())) {
+            choosedCourses.remove(course);
+            creditSum -= course.getCREDIT();
+            tuition -= Course.getCreditRate() * course.getCREDIT();
+            System.out.println(this.getName() + " drop the course - " + courseName);
+        }
     }
 
     public void addSubmissionToCourse(String courseName, int assignmentId, String filepath) {
@@ -98,19 +110,32 @@ public class Student extends User {
             submission.addAnswer(answer);
         }
         assignment.addSubmission(submission);
+        System.out.println(submission.getStudentName() + "'s submission uploaded.");
     }
 
     public void browseSubmission(String courseName, int assignmentId) {
         Course course = db.findCourseByName(courseName);
+        if (course == null) {
+            return;
+        }
         Assignment assignment = course.getAssignmentById(assignmentId);
+        if (assignment == null) {
+            return;
+        }
         Submission submission = assignment.getSubmissionByStudentName(this.getName());
+        if (submission == null) {
+            return;
+        }
         System.out.println(submission);
     }
 
     public void deleteSubmission(String courseName, int assignmentId) {
         Course course = db.findCourseByName(courseName);
         Assignment assignment = course.getAssignmentById(assignmentId);
-        assignment.deleteSubmissionByStudentName(this.getName());
+
+        if (assignment != null && assignment.deleteSubmissionByStudentName(this.getName())) {
+            System.out.println("Assignment: " + assignment.getId() + " of " + courseName + " is deleted.");
+        }
     }
 
     public void updateSubmission(String courseName, int assignmentId, String filepath) {
@@ -119,9 +144,10 @@ public class Student extends User {
     }
 
     public void viewTranscript() {
+        System.out.println("StudentName: " + this.getName());
         for (Course course : choosedCourses) {
             String grade = getGradeByCourseName(course.getName());
-            System.out.println("Course: " + course.getName() + " Grade: " + grade);
+            System.out.println(course.getName() + " - " + grade);
         }
     }
 
